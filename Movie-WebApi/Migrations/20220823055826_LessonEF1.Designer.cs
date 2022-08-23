@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Movie_WebApi.Data;
 
@@ -11,9 +12,10 @@ using Movie_WebApi.Data;
 namespace Movie_WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220823055826_LessonEF1")]
+    partial class LessonEF1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,11 +26,11 @@ namespace Movie_WebApi.Migrations
 
             modelBuilder.Entity("Movie_WebApi.Models.Movie", b =>
                 {
-                    b.Property<int>("MovieId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MovieId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -37,20 +39,20 @@ namespace Movie_WebApi.Migrations
                     b.Property<DateTime>("Releasedate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("MovieId");
+                    b.HasKey("Id");
 
                     b.ToTable("Movies");
                 });
 
             modelBuilder.Entity("Movie_WebApi.Models.Review", b =>
                 {
-                    b.Property<int>("ReviewId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReviewId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("MovieId")
+                    b.Property<int?>("MovieId")
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
@@ -61,7 +63,7 @@ namespace Movie_WebApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ReviewId");
+                    b.HasKey("Id");
 
                     b.HasIndex("MovieId");
 
@@ -70,13 +72,9 @@ namespace Movie_WebApi.Migrations
 
             modelBuilder.Entity("Movie_WebApi.Models.Review", b =>
                 {
-                    b.HasOne("Movie_WebApi.Models.Movie", "Movie")
+                    b.HasOne("Movie_WebApi.Models.Movie", null)
                         .WithMany("Reviews")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Movie");
+                        .HasForeignKey("MovieId");
                 });
 
             modelBuilder.Entity("Movie_WebApi.Models.Movie", b =>

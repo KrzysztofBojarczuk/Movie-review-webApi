@@ -11,6 +11,10 @@ namespace Movie_WebApi.AutoMapper
             CreateMap<MovieCreateDto, Movie>();
             CreateMap<Movie, MovieDto>();
 
+
+            CreateMap<ReviewCreateDto, Review>();
+            CreateMap<Review, ReviewDto>();
+
         }
     }
 }

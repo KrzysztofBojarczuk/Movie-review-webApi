@@ -39,7 +39,7 @@ namespace Movie_WebApi.Controllers
             {
                 return NotFound("No objwct");
             }
-            var getMovie = await _movieReposiotry.GetMovieAsync(movieId);
+            var getMovie = await _movieReposiotry.GetMovieAsyncById(movieId);
 
             var getMapMovie = _mapper.Map<Movie>(getMovie);
 
@@ -97,7 +97,9 @@ namespace Movie_WebApi.Controllers
             }
 
             var movieMap = _mapper.Map<Movie>(updateMovie);
-            movieMap.Id = movieId;
+
+            movieMap.MovieId = movieId;
+
             var movieGet = await _movieReposiotry.UpdateMovieAsync(movieMap);
 
             if (!movieGet)
@@ -123,8 +125,8 @@ namespace Movie_WebApi.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var movieToDelete = await _movieReposiotry.GetMovieAsyncById(movieId);
 
-            var movieToDelete = await _movieReposiotry.GetMovieAsync(movieId);
 
             if (movieToDelete == null)
             {

@@ -16,30 +16,7 @@ namespace Movie_WebApi.Repository
 
         public async Task<ICollection<Movie>> GetMoviesAsync()
         {
-            return await _context.Movies.OrderBy(p => p.Id).ToListAsync();
-        }
-
-        public async Task<Movie> GetMovieAsync(int id)
-        {
-            return await _context.Movies.Where(p => p.Id == id).FirstOrDefaultAsync();
-        }
-        public async Task<Movie> GetMovieAsync(string name)
-        {
-            return await _context.Movies.Where(p => p.Name == name).FirstOrDefaultAsync();
-        }
-
-
-
-        public async Task<bool> CreateMovieAsync(Movie movie)
-        {
-            await _context.AddAsync(movie);
-            return await SaveAsync();
-        }
-
-
-        public async Task<bool> MovieExistsAsync(int movieId)
-        {
-            return await _context.Movies.AnyAsync(p => p.Id == movieId);
+            return await _context.Movies.OrderBy(p => p.MovieId).ToListAsync();
         }
 
         public async Task<bool> SaveAsync()
@@ -47,6 +24,29 @@ namespace Movie_WebApi.Repository
             var saved = await _context.SaveChangesAsync();
             return saved > 0 ? true : false;
         }
+
+        public async Task<Movie> GetMovieAsyncById(int id)
+        {
+            return await _context.Movies.Where(p => p.MovieId == id).FirstOrDefaultAsync();
+        }
+        public async Task<Movie> GetMovieAsync(string name)
+        {
+            return await _context.Movies.Where(p => p.Name == name).FirstOrDefaultAsync();
+        }
+    
+
+        public async Task<bool> MovieExistsAsync(int movieId)
+        {
+            return await _context.Movies.AnyAsync(p => p.MovieId == movieId);
+        }
+
+      
+        public async Task<bool> CreateMovieAsync(Movie movie)
+        {
+            await _context.AddAsync(movie);
+            return await SaveAsync();
+        }
+
 
         public async Task<bool> UpdateMovieAsync(Movie movie)
         {
